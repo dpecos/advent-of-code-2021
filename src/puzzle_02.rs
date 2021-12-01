@@ -1,6 +1,5 @@
 pub fn run() {
   // let measurements = vec![199, 200, 208, 210, 200, 207, 240, 269, 260, 263];
-
   let measurements = vec![
     199, 227, 229, 230, 233, 228, 231, 226, 237, 259, 262, 265, 266, 265, 269, 276, 278, 279, 281,
     287, 305, 316, 314, 320, 313, 314, 315, 329, 346, 357, 370, 369, 360, 384, 383, 401, 402, 403,
@@ -126,15 +125,16 @@ pub fn run() {
     6059, 6060, 6064, 6065, 6092, 6091, 6090, 6089, 6085, 6101, 6107, 6110, 6109, 6120, 6117, 6110,
   ];
 
-  let mut last_measurement = 0;
+  let mut last_measurement = 0u32;
   let mut amount_increases = -1;
 
-  measurements.iter().for_each(|m| {
-    if *m > last_measurement {
+  for i in 0..measurements.len() - 2 {
+    let window_total = measurements[i..i + 3].to_vec().iter().sum::<u32>();
+    if window_total > last_measurement {
       amount_increases += 1;
     }
-    last_measurement = *m;
-  });
+    last_measurement = window_total;
+  }
 
   println!("Amount of increases: {}", amount_increases);
 }
