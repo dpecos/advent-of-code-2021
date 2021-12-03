@@ -1,4 +1,5 @@
 use utils::files::read_lines;
+use utils::strings::*;
 
 fn count_bits(lines: &Vec<String>) -> Vec<i16> {
   // let mut counters = vec![0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
@@ -48,25 +49,8 @@ fn negate_binary_string(input: &String) -> String {
   output
 }
 
-fn convert_binary_string_to_number(input: String) -> i32 {
-  let mut output = 0i32;
-  for (i, c) in input.chars().rev().enumerate() {
-    let current = if c == '1' { 1 } else { 0 };
-    output += current * 2i32.pow(i as u32);
-  }
-  output
-}
-
 fn filter_lines(path: &str, negate: bool) -> String {
-  let mut result = vec![];
-
-  if let Ok(lines) = read_lines(path) {
-    for line_result in lines {
-      if let Ok(line) = line_result {
-        result.push(line);
-      }
-    }
-  }
+  let mut result = read_lines(path);
 
   let mut criteria_pos = 0;
 
@@ -86,9 +70,6 @@ fn filter_lines(path: &str, negate: bool) -> String {
     if c == '=' {
       criteria = if negate { '0' } else { '1' };
     }
-    // if result.len() == 2 {
-    //   criteria = '1'
-    // }
 
     let mut filtered = vec![];
     for line in result.iter() {
